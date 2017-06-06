@@ -4,6 +4,8 @@ classdef SignLoader < handle
         AnnotationDirectory
         Signers
         Types
+        CurrentVideo
+        CurrentVideoPath
     end
 
     methods
@@ -14,8 +16,10 @@ classdef SignLoader < handle
             obj.Types = {'.vid', '.vimseq3'};
         end
 
-        function [vid, meta, annotations] = loadSign(obj, signIdx)
+        function [vid, meta, annotations] = loadSign(obj, index)
             % Extract the meta annotations
+            % TODO: Random signer may not be OK for comparing all. It may skip
+            % certain signer/sign combinations.
             signerIdx = randi(length(obj.Signers));
             metaFile = strcat('annotation_', obj.Signers(signerIdx), '.mat');
             fullPath = strcat(obj.AnnotationDirectory, metaFile);
@@ -23,12 +27,11 @@ classdef SignLoader < handle
             data = data.data;
 
             % Collect metadata for file
-            index = signIdx == data.id;
             signName = data.lexicon{index};
             fileName = data.filename{index};
             startFrame = data.startframe(index);
             endFrame = data.endframe(index);
-            filePath = [obj.DataDirectory, data.directory{index}, '/', fileName]
+            filePath = [obj.DataDirectory, data.directory{index}, '/', fileName];
             meta = struct('SignName', signName, 'FileName', fileName, ...
                 'Directory', data.directory{index}, 'StartFrame', startFrame, ...
                 'EndFrame', endFrame);
@@ -45,7 +48,13 @@ classdef SignLoader < handle
 
             % Load the video using a specific video loader
             % TODO: Only supporting .vid for now
-            [vid, vidInfo] = vidOpenMex(filePath);
+            if strcmp(obj.CurrentVideoPath, filePath) == 1
+                vid = obj.CurrentVideo;
+            else
+                [vid, vidInfo] = vidOpenMex(filePath);
+                obj.CurrentVideo = vid;
+                obj.CurrentVideoPath = filePath;
+            end
         end
     end
 end
