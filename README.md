@@ -5,6 +5,7 @@ dataset.
 
 # Dependencies
 
+ - ASLLVD dataset: http://csr.bu.edu/asl/asllvd/annotate/index-cvpr4hb08-dataset.html
  - vid_reader - Library for reading .vid files. Available at
 http://csr.bu.edu/asl/asllvd/annotate/vid_reader.zip
  - CSE6367 supplementary code and data is used for the hand detector.
