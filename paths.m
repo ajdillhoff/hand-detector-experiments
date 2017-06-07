@@ -1,8 +1,3 @@
-% Path to video reader for .vid files
-addpath('/Users/alexdillhoff/Documents/Projects/vid_reader');
-
-% Path to annotations
-addpath('/Users/alexdillhoff/Documents/Data Sets/1113_annotations');
-
-% Path to .vid data files
-addpath('/Users/alexdillhoff/Desktop/ASL_2008_01_11');
+% Path to CSE6367 data and code
+addpath(genpath('/Users/alexdillhoff/Documents/School/Undergraduate/CSE 6367/all_code'));
+addpath(genpath('/Users/alexdillhoff/Documents/School/Undergraduate/CSE 6367/1_intro_data'));

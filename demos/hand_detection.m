@@ -31,7 +31,7 @@ by = hand1Annotation(2);
 hand1Box = [bx, by, bw, bh];
 rectangle('Position', hand1Box, 'EdgeColor', 'red');
 
-if annotations{2} ~= []
+if ~isempty(annotations{2})
     hand2Annotation = annotations{2}(frameIdx, :);
     bw = hand2Annotation(3);
     bh = hand2Annotation(4);

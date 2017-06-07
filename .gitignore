@@ -3,3 +3,6 @@
 
 # libraries
 vid_reader/
+
+# result files
+results/

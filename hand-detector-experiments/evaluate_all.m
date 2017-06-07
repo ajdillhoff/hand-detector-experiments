@@ -5,7 +5,7 @@
 
 annotationDir = '/Users/alexdillhoff/Documents/Data Sets/1113_annotations/';
 dataDir = '/Volumes/ASLLVD/vid/';
-signers = {'tb1113'};
+signers = {'lb1113'};
 signLoader = SignLoader(dataDir, annotationDir, signers);
 
 % Function parameters
@@ -13,7 +13,7 @@ nCandidates = 1;
 suppressionFactor = 1;
 
 % Result storage
-signResults = size(1113, 1);
+signResults = size(1, 1113);
 
 for i = 1 : 1113
     fprintf('Processing sign %d\n', i);
