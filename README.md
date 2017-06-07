@@ -8,8 +8,8 @@ dataset.
  - vid_reader - Library for reading .vid files. Available at
 http://csr.bu.edu/asl/asllvd/annotate/vid_reader.zip
  - CSE6367 supplementary code and data is used for the hand detector.
- Data: http://vlm1.uta.edu/~athitsos/courses/cse6367_common_data/gesture_videos.zip
- Code: http://vlm1.uta.edu/~athitsos/courses/cse6367_spring2012/lectures/all_code.zip
+    - Data: http://vlm1.uta.edu/~athitsos/courses/cse6367_common_data/gesture_videos.zip
+    - Code: http://vlm1.uta.edu/~athitsos/courses/cse6367_spring2012/lectures/all_code.zip
 
 # Loading Data
 
