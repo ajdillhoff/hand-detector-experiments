@@ -43,10 +43,13 @@ rectangle('Position', hand1Box, 'EdgeColor', 'red');
 %end
 
 % Detect hands - detection routine returns locations as column-major.
-handSize = [bh bw];
 nCandidates = 1;
 suppressionFactor = 1;
 target = [hand1Annotation(1) + (hand1Annotation(3) / 2), ...
     hand1Annotation(2) + (hand1Annotation(4) / 2)];
 [bestErr, bestLocation, bestK] = evaluateFrame(previous, frame, next, ...
-    handSize, suppressionFactor, nCandidates, target);
+    suppressionFactor, nCandidates, target);
+
+if bestErr == intmax
+    fprintf('No hand candidates for this frame.\n');
+end
