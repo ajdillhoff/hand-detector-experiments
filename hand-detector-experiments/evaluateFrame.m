@@ -23,6 +23,10 @@ function [bestErr, bestLocation, bestK] = evaluateFrame(previousFrame, ...
     [scores, centers] = detectHands(previousFrame, currentFrame, ...
         nextFrame, handSize, suppressionFactor, nCandidates);
 
+    if isempty(centers)
+        return
+    end
+
     for k = 1 : nCandidates
         detectedLoc = [centers(k, 2) centers(k, 1)];
 

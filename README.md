@@ -1,7 +1,7 @@
 # Hand Detector Experiments
 
-This project evaluates the efficacy of different hand detectors on the ASLLVD
-dataset.
+This project evaluates the efficacy of a motion and skin based hand detector
+against the ASLLVD dataset.
 
 # Dependencies
 
@@ -22,7 +22,7 @@ An example of loading a particular sign is given in tests/testSignLoader.m.
 
 # Detection and Evaluation
 
-Running detector is done using the `detectHands` method. Example:
+Running the detector is done using the `detectHands` method. Example:
 
 ```
 [scores, centers] = detectHands(previous, current, next, handSize, ...
@@ -35,7 +35,7 @@ comparing each one against the given target hand location. The call to
 
 ```
 [bestErr, bestLocation, bestK] = evaluateFrame(previous, frame, next, ...
-            handSize, suppressionFactor, nCandidates, target);
+            suppressionFactor, nCandidates, target);
 ```
 
 # TODO
