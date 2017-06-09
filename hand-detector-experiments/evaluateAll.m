@@ -25,10 +25,16 @@ function results = evaluateAll(dataDir, annotationDir, savePath, ...
 
     signLoader = SignLoader(dataDir, annotationDir, signers);
 
-    % Result storage
-    results = cell(1113, 1);
+    % Check for existing file
+    if exist(savePath, 'file')
+        load(savePath);
+        startIndex = find(cellfun('isempty', results), 1);
+    else
+        results = cell(1113, 1);
+        startIndex = 1;
+    end
 
-    for i = 1 : 1113
+    for i = startIndex : 1113
         fprintf('Processing sign %d\n', i);
         tic;
 
