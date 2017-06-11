@@ -13,7 +13,7 @@ classdef SignLoader < handle
             obj.DataDirectory = dataDir;
             obj.AnnotationDirectory = annotationDir;
             obj.Signers = signers;
-            obj.Types = {'.vid', '.vimseq3'};
+            obj.Types = {'.vid', '.vimseq3', '.mp4'};
         end
 
         function [vid, meta, annotations] = loadSign(obj, index)
@@ -40,6 +40,13 @@ classdef SignLoader < handle
             [~, ~, ext] = fileparts(filePath);
             assert(ismember(ext, obj.Types), 'SignLoader.loadSign: Unsupported file type.');
 
+            % TODO: Temporary - no access to vimseq files currently
+            if strcmp(ext, '.vimseq3') == 1
+                filePath = strsplit(filePath, '.');
+                filePath = strcat(filePath(1), '.mpg');
+                filePath = cell2mat(filePath);
+            end
+
             % Extract the annotations
             handfaceFile = strcat('handface_manual_', obj.Signers(signerIdx), '.mat');
             handfacePath = strcat(obj.AnnotationDirectory, handfaceFile);
@@ -47,11 +54,10 @@ classdef SignLoader < handle
             annotations = handfaceData.handface(index, :);
 
             % Load the video using a specific video loader
-            % TODO: Only supporting .vid for now
             if strcmp(obj.CurrentVideoPath, filePath) == 1
                 vid = obj.CurrentVideo;
             else
-                [vid, vidInfo] = vidOpenMex(filePath);
+                vid = open_video(filePath);
                 obj.CurrentVideo = vid;
                 obj.CurrentVideoPath = filePath;
             end

@@ -43,8 +43,8 @@ function results = evaluateAll(dataDir, annotationDir, savePath, ...
 
         % Load initial frames
         vidFrameIdx = 2 + meta.StartFrame - 1;
-        frame = vidReadMex(vid, vidFrameIdx);
-        previous = vidReadMex(vid, vidFrameIdx - 1);
+        previousFrame = vid.read_frame(vidFrameIdx - 1);
+        currentFrame = vid.read_frame(vidFrameIdx);
         nFrames = meta.EndFrame - meta.StartFrame - 2;
         signResults = zeros(nFrames, 1);
 
@@ -52,7 +52,7 @@ function results = evaluateAll(dataDir, annotationDir, savePath, ...
         % We need the surrounding frames, so pick a frame >1
         for frameIdx = 2 : nFrames + 1
             vidFrameIdx = frameIdx + meta.StartFrame - 1;
-            next = vidReadMex(vid, vidFrameIdx + 1);
+            nextFrame = vid.read_frame(vidFrameIdx + 1);
 
             % Generate the boxes for annotations and display
             hand1Annotation = annotations{1}(frameIdx, :);
@@ -60,12 +60,12 @@ function results = evaluateAll(dataDir, annotationDir, savePath, ...
             % Detect hands - detection routine returns locations as column-major.
             target = [hand1Annotation(1) + (hand1Annotation(3) / 2), ...
                 hand1Annotation(2) + (hand1Annotation(4) / 2)];
-            [bestErr, bestLocation, bestK] = evaluateFrame(previous, frame, next, ...
-                suppressionFactor, nCandidates, target);
+            [bestErr, bestLocation, bestK] = evaluateFrame(previousFrame, ...
+                currentFrame, nextFrame, suppressionFactor, nCandidates, target);
 
             signResults(frameIdx - 1) = bestErr;
-            previous = frame;
-            frame = next;
+            previousFrame = currentFrame;
+            currentFrame = nextFrame;
         end
 
         results{i} = signResults;

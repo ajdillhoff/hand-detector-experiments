@@ -15,12 +15,12 @@ signLoader = SignLoader(dataDir, annotationDir, signers);
 % We need the surrounding frames, so pick a frame >1
 frameIdx = 2;
 vidFrameIdx = frameIdx + meta.StartFrame - 1;
-frame = vidReadMex(vid, vidFrameIdx);
-previous = vidReadMex(vid, vidFrameIdx - 1);
-next = vidReadMex(vid, vidFrameIdx + 1);
+currentFrame = vid.read_frame(vidFrameIdx);
+previousFrame = vid.read_frame(vidFrameIdx - 1);
+nextFrame = vid.read_frame(vidFrameIdx + 1);
 
 % Display the frame
-imshow(uint8(frame));
+imshow(uint8(currentFrame));
 
 % Generate the boxes for annotations and display
 hand1Annotation = annotations{1}(frameIdx, :);
@@ -44,7 +44,8 @@ end
 % Detect hands - detection routine returns locations as column-major.
 handSize = [bh bw];
 nCandidates = 1;
-[scores, centers] = detectHands(previous, frame, next, handSize, 1, nCandidates);
+[scores, centers] = detectHands(previousFrame, currentFrame, nextFrame, ...
+    handSize, 1, nCandidates);
 
 % Show detected locations
 for i = 1 : nCandidates

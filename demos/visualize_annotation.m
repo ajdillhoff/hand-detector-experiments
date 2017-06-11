@@ -14,7 +14,7 @@ signLoader = SignLoader(dataDir, annotationDir, signers);
 % Pick a frame
 frameIdx = 1;
 vidFrameIdx = frameIdx + meta.StartFrame - 1;
-frame = vidReadMex(vid, vidFrameIdx);
+frame = vid.read_frame(vidFrameIdx);
 
 % Display the frame
 imshow(uint8(frame));

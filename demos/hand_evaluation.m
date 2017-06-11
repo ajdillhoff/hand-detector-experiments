@@ -6,7 +6,7 @@
 
 annotationDir = '/Users/alexdillhoff/Documents/Data Sets/1113_annotations/';
 dataDir = '/Volumes/ASLLVD/vid/';
-signers = {'tb1113', 'lb1113'};
+signers = {'tb1113', 'lb1113', 'gb1113'};
 
 % Load the video and annotations
 signLoader = SignLoader(dataDir, annotationDir, signers);
@@ -16,12 +16,12 @@ signLoader = SignLoader(dataDir, annotationDir, signers);
 % We need the surrounding frames, so pick a frame >1
 frameIdx = 2;
 vidFrameIdx = frameIdx + meta.StartFrame - 1;
-frame = vidReadMex(vid, vidFrameIdx);
-previous = vidReadMex(vid, vidFrameIdx - 1);
-next = vidReadMex(vid, vidFrameIdx + 1);
+currentFrame = vid.read_frame(vidFrameIdx);
+previousFrame = vid.read_frame(vidFrameIdx - 1);
+nextFrame = vid.read_frame(vidFrameIdx + 1);
 
 % Display the frame
-imshow(uint8(frame));
+imshow(uint8(currentFrame));
 
 % Generate the boxes for annotations and display
 hand1Annotation = annotations{1}(frameIdx, :);
@@ -47,8 +47,8 @@ nCandidates = 1;
 suppressionFactor = 1;
 target = [hand1Annotation(1) + (hand1Annotation(3) / 2), ...
     hand1Annotation(2) + (hand1Annotation(4) / 2)];
-[bestErr, bestLocation, bestK] = evaluateFrame(previous, frame, next, ...
-    suppressionFactor, nCandidates, target);
+[bestErr, bestLocation, bestK] = evaluateFrame(previousFrame, currentFrame, ...,
+    nextFrame, suppressionFactor, nCandidates, target);
 
 if bestErr == intmax
     fprintf('No hand candidates for this frame.\n');
